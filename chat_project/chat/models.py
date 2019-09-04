@@ -11,6 +11,7 @@ class Message(models.Model):
                                on_delete=models.CASCADE,
                                related_name='getter')
     text = models.TextField()
+    is_red = models.BooleanField()
     created_date = models.DateTimeField(default=timezone.now)
 
     def publish(self):
