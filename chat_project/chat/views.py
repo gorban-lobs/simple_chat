@@ -16,3 +16,8 @@ def chat_list(request):
             '''
     chat_list = User.objects.raw(query, (cur_user_id, cur_user_id))
     return render(request, 'chat/chat_list.html', {'chats': chat_list})
+
+
+@login_required
+def chat_page(request, pk):
+    return render(request, 'chat/chat_page.html')

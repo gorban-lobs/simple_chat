@@ -1,6 +1,6 @@
 <a href="{% url 'logout' %}">Logout</a>
 {% for chat in chats %}
     <div>
-      {{ chat }} {{ chat.cnt }}
+      <a href="{% url 'chat_page' pk=chat.pk %}">{{ chat }} {{ chat.cnt }}</a>
     </div>
 {% endfor %}
