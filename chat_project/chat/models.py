@@ -16,4 +16,5 @@ class Message(models.Model):
 
     def send(self):
         self.sended_time = timezone.now()
+        self.is_red = False
         self.save()

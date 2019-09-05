@@ -21,21 +21,26 @@ def chat_list(request):
 @login_required
 def chat_page(request, pk):
     cur_user_id = request.user.id
+
+    if request.method == 'GET':
+        Message.objects.filter(sender_id=pk,
+                               getter_id=cur_user_id,
+                               is_red=False).update(is_red=True)
+
+    if request.method == 'POST':
+        print(request.POST)
+        new_message = Message(sender_id=cur_user_id, getter_id=pk,
+                              text=request.POST['message'])
+        new_message.send()
+
     query = query = '''
-            SELECT id, sender_id, getter_id, sended_time, text
-            FROM chat_message
-            WHERE sender_id = %s AND getter_id = %s OR
-            sender_id = %s AND getter_id = %s
-            '''
-    history = Message.objects.raw(query, (str(cur_user_id),
-                                          pk, pk,
-                                          str(cur_user_id)))
+        SELECT id, sender_id, getter_id, sended_time, text
+        FROM chat_message
+        WHERE sender_id = %s AND getter_id = %s OR
+        sender_id = %s AND getter_id = %s
+        '''
+    history = Message.objects.raw(query,
+                                  (str(cur_user_id), pk, pk, str(cur_user_id)))
 
-    Message.objects.filter(sender_id=pk,
-                           getter_id=cur_user_id,
-                           is_red=False).update(is_red=True)
-
-    # send new
-    return render(request, 'chat/chat_page.html',
-                  {'history': history,
-                   'cur_id': cur_user_id})
+    return render(request, 'chat/chat_page.html', {'history': history,
+                                                   'cur_id': cur_user_id})
