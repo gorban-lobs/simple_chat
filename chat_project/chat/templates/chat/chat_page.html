@@ -22,7 +22,7 @@
 <div style="margin-top:30px">
   <form method="post">
     {% csrf_token %}
-        <textarea rows = "5" cols="50" name="message"></textarea>
+        <textarea rows="5" cols="50" name="message" maxlength="280"></textarea>
         <br \>
         <button type="submit" >Send</button>
       </form>
