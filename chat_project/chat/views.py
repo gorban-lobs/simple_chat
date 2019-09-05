@@ -20,4 +20,16 @@ def chat_list(request):
 
 @login_required
 def chat_page(request, pk):
-    return render(request, 'chat/chat_page.html')
+    cur_user_id = str(request.user.id)
+    query = query = '''
+            SELECT id, sender_id, getter_id, sended_time, text
+            FROM chat_message
+            WHERE sender_id = %s AND getter_id = %s OR
+            sender_id = %s AND getter_id = %s
+            '''
+    history = User.objects.raw(query, (cur_user_id, pk, pk, cur_user_id))
+    # read messages
+    # send new
+    return render(request, 'chat/chat_page.html',
+                  {'history': history,
+                   'cur_id': int(cur_user_id)})

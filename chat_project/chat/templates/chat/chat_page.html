@@ -1,1 +1,17 @@
 <a href="{% url 'logout' %}">Logout</a>
+<div style="margin-top:30px">
+{% for mes in history %}
+    {% if mes.sender_id == cur_id %}
+      <div style="margin-left:200px; margin-top:20px">
+    {% else %}
+      <div style="margin-left:10px; margin-top:20px">
+    {% endif %}
+        <div>
+          {{ mes.text}}
+        </div>
+        <div style="font-size:10">
+          {{ mes.sended_time }}
+        </div>
+      </div>
+{% endfor %}
+</div>
