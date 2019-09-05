@@ -1,5 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
+from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 
 from .models import Message
@@ -15,7 +16,9 @@ def chat_list(request):
             GROUP BY u.id HAVING u.id <> %s
             '''
     chat_list = User.objects.raw(query, (str(cur_user_id), str(cur_user_id)))
-    return render(request, 'chat/chat_list.html', {'chats': chat_list})
+    return render(request=request,
+                  template_name='chat/chat_list.html',
+                  context={'chats': chat_list})
 
 
 @login_required
@@ -42,5 +45,24 @@ def chat_page(request, pk):
     history = Message.objects.raw(query,
                                   (str(cur_user_id), pk, pk, str(cur_user_id)))
 
-    return render(request, 'chat/chat_page.html', {'history': history,
-                                                   'cur_id': cur_user_id})
+    return render(request=request,
+                  template_name='chat/chat_page.html',
+                  context={'history': history, 'cur_id': cur_user_id})
+
+
+def register(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            username = form.cleaned_data.get('username')
+            return redirect('chat_list')
+        else:
+            return render(request=request,
+                          template_name="registration/registration.html",
+                          context={"form": form})
+
+    form = UserCreationForm
+    return render(request=request,
+                  template_name="registration/registration.html",
+                  context={"form": form})
