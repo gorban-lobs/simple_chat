@@ -4,11 +4,19 @@
   <title>SuperHyperMegaChat</title>
 </head>
 <body>
-BACK
-<a href="{% url 'logout' %}">Logout</a>
-<section>
-  {% block content %}
-  {% endblock %}
-</section>
+  <a href="{% url 'chat_list' %}" style="font-size:20px">
+    CHAT LIST
+  </a>
+
+  <section>
+    {% block content %}
+    {% endblock %}
+  </section>
+
+  <div style="margin-top:30px"">
+    <a href="{% url 'logout' %}" style="color:red">
+      Logout
+    </a>
+  </div>
 </body>
 </html>
