@@ -12,8 +12,8 @@ class Message(models.Model):
                                related_name='getter')
     text = models.TextField()
     is_red = models.BooleanField()
-    created_date = models.DateTimeField(default=timezone.now)
+    sended_time = models.DateTimeField(default=timezone.now)
 
-    def publish(self):
-        self.published_date = timezone.now()
+    def send(self):
+        self.sended_time = timezone.now()
         self.save()
