@@ -5,7 +5,8 @@
 <div style="margin-top:30px">
 {% for chat in chats %}
     <div>
-      <a href="{% url 'chat_page' pk=chat.pk %}">{{ chat }} {{ chat.cnt }}</a>
+      <a href="{% url 'chat_page' pk=chat.pk %}">{{ chat }}</a>
+      <span style="color:red">{{ chat.cnt }}</span>
     </div>
 {% endfor %}
 </div>
